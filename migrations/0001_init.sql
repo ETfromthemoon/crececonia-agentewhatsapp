@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS contacts (
   need            TEXT,
   timeline        TEXT,
   source          TEXT,
+  web_socials     TEXT,                          -- web o redes sociales del contacto
   consent         INTEGER NOT NULL DEFAULT 0,   -- opt-in marketing (plantillas fuera de 24h)
   human_handoff   INTEGER NOT NULL DEFAULT 0,   -- 1 = bot en pausa (escalado)
   created_at      INTEGER NOT NULL,

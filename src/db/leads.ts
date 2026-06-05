@@ -40,8 +40,9 @@ export async function upsertLead(
        need      = COALESCE(?, need),
        budget    = COALESCE(?, budget),
        timeline  = COALESCE(?, timeline),
-       consent   = COALESCE(?, consent),
-       updated_at = ?
+       consent     = COALESCE(?, consent),
+       web_socials = COALESCE(?, web_socials),
+       updated_at  = ?
      WHERE id = ?`,
   )
     .bind(
@@ -52,6 +53,7 @@ export async function upsertLead(
       input.presupuesto ?? null,
       input.plazo ?? null,
       consent,
+      input.web_o_redes ?? null,
       Date.now(),
       contact.id,
     )

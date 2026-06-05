@@ -13,9 +13,10 @@ Objetivo: **mínimo 50 iteraciones** (ver `docs/PRD.md` §14.1).
 4. **Pruebas** con conversaciones simuladas y revisión.
 
 ## Índice de rondas
-- [Ronda 01 — Descubrimiento](./ronda-01.md) · _en curso_
+- [Ronda 01 — Descubrimiento](./ronda-01.md) · ✅ completada
 
 ## Changelog del prompt/persona
 | Fecha | Ronda | Cambio | Archivo |
 |---|---|---|---|
 | — | 00 | Persona base v0 | `src/brain/prompt.ts` |
+| 2026-06 | 01 | Persona Crececonia (es-CL): posicionamiento, tono, oferta, precios→llamada, calificación, escalado, alcance de marca | `src/brain/prompt.ts`, `src/config.ts`, `src/brain/tools.ts`, `src/db/leads.ts` |
