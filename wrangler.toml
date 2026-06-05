@@ -1,6 +1,7 @@
 name = "crececonia-agentewhatsapp"
 main = "src/index.ts"
-compatibility_date = "2026-06-01"
+# Súbela cuando tu runtime/wrangler soporte fechas más nuevas.
+compatibility_date = "2025-02-04"
 compatibility_flags = ["nodejs_compat"]
 
 # =====================================================================

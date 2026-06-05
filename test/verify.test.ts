@@ -15,7 +15,10 @@ async function sign(secret: string, body: string): Promise<string> {
 }
 
 function buf(s: string): ArrayBuffer {
-  return new TextEncoder().encode(s).buffer;
+  const u8 = new TextEncoder().encode(s);
+  const ab = new ArrayBuffer(u8.byteLength);
+  new Uint8Array(ab).set(u8);
+  return ab;
 }
 
 describe('verifySignature', () => {
