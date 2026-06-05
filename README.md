@@ -7,6 +7,7 @@ responde con conocimiento real de la marca (RAG), **califica leads**, **agenda l
 **escala a un humano** cuando conviene.
 
 > 📄 PRD y diseño técnico completos: [`docs/PRD.md`](docs/PRD.md).
+> 🚀 Cómo publicarlo paso a paso: [`docs/DEPLOY.md`](docs/DEPLOY.md).
 > 🧠 El cerebro se afina por rondas largas de Q&A (mín. 50 iteraciones): ver `docs/PRD.md` §14.1
 > y la bitácora en [`docs/afinado/`](docs/afinado/).
 
