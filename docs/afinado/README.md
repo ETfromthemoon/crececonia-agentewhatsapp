@@ -17,6 +17,7 @@ Objetivo: **mínimo 50 iteraciones** (ver `docs/PRD.md` §14.1).
 - [Ronda 02 — Identidad, regalo, precio y saludo](./ronda-02.md) · ✅ completada
 - [Ronda 03 — Llamada, presupuesto, no-clientes y voz](./ronda-03.md) · ✅ completada
 - [Ronda 04 — Objeciones, seguimiento, cierre y cursos](./ronda-04.md) · ✅ completada
+- [Ronda 05 — Idiomas, confirmación, postventa y robustez](./ronda-05.md) · ✅ completada
 
 ## Changelog del prompt/persona
 | Fecha | Ronda | Cambio | Archivo |
@@ -26,3 +27,4 @@ Objetivo: **mínimo 50 iteraciones** (ver `docs/PRD.md` §14.1).
 | 2026-06 | 02 | Nombre **Nia**, ejemplos few-shot (saludo/precio/regalo), catálogo de recursos | `src/brain/prompt.ts`, `src/config.ts`, `src/resources.ts`, `src/brain/toolHandlers.ts` |
 | 2026-06 | 03 | Llamada 30 min, calificación por señales, manejo de no-clientes, voz chilena suave | `src/brain/prompt.ts`, `src/config.ts` |
 | 2026-06 | 04 | Objeciones (empatía+reencuadre), cierre proactivo, cursos, **seguimiento automático** (cron + `followup_sent`) | `src/brain/prompt.ts`, `src/resources.ts`, `src/followup/followup.ts`, `src/index.ts` |
+| 2026-06 | 05 | Idioma del usuario, confirmación de reserva, postventa→escalado, robustez ante fallos | `src/brain/prompt.ts` |
