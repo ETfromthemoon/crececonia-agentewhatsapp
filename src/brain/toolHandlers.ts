@@ -5,6 +5,7 @@ import { upsertLead, qualifyLead, setHumanHandoff } from '../db/leads';
 import { getSlots, createBooking } from '../calcom/client';
 import { insertBooking } from '../db/bookings';
 import { notifyEscalation } from '../notify/escalate';
+import { getResource } from '../resources';
 import { DEFAULT_TIMEZONE } from '../config';
 
 export interface ToolContext {
@@ -54,8 +55,9 @@ export async function runTool(
     }
 
     case 'enviar_recurso': {
-      // TODO: catálogo real de recursos (tabla en D1 o config). Stub de momento.
-      return { ok: true, recurso_id: input.recurso_id, titulo: '', url: '' };
+      const r = getResource(String(input.recurso_id));
+      if (!r) return { ok: false, error: 'recurso no encontrado' };
+      return { ok: true, recurso_id: r.id, titulo: r.titulo, url: r.url, descripcion: r.descripcion };
     }
 
     case 'escalar_a_humano': {

@@ -12,6 +12,7 @@ export const DEFAULT_TIMEZONE = 'America/Santiago'; // Crececonia es de Chile
 /** Datos de marca (Crececonia). */
 export const BRAND = {
   name: 'Crececonia',
+  agentName: 'Nia',
   website: 'https://www.crececonia.cl',
   instagram: '@crececoniacl',
 } as const;
