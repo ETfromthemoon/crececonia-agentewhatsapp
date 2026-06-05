@@ -8,6 +8,7 @@ export const RAG_MIN_SCORE = 0.3;
 export const DEDUPE_TTL_SECONDS = 60 * 60 * 24; // 24h
 export const RATE_LIMIT_PER_MINUTE = 20;
 export const DEFAULT_TIMEZONE = 'America/Santiago'; // Crececonia es de Chile
+export const CALL_DURATION_MIN = 30; // duración de la llamada de diagnóstico (Cal.com)
 
 /** Datos de marca (Crececonia). */
 export const BRAND = {
