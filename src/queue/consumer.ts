@@ -1,6 +1,7 @@
 import type { Env } from '../env';
 import type { IncomingJob } from '../types';
 import { alreadyProcessed, markProcessed } from '../lib/kv';
+import { checkRateLimit } from '../lib/ratelimit';
 
 /**
  * Consumidor de la Queue `whatsapp-incoming`.
@@ -16,6 +17,13 @@ export async function handleQueueBatch(
     const job = msg.body;
     try {
       if (await alreadyProcessed(env, job.message.id)) {
+        msg.ack();
+        continue;
+      }
+
+      // Protección anti-abuso/coste: por encima del límite, descarta el mensaje.
+      if (!(await checkRateLimit(env, job.waId))) {
+        await markProcessed(env, job.message.id);
         msg.ack();
         continue;
       }
