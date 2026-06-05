@@ -24,9 +24,29 @@ WhatsApp → Webhook (verifica firma, 200 rápido) → Queue → Durable Object 
 
 ## Estado
 
-🚧 **Esqueleto / scaffold.** Estructura, configuración y firmas creadas; lógica de negocio con
-`TODO` por implementar fase a fase (ver roadmap en `docs/PRD.md` §18). **Aún no desplegable**:
-faltan credenciales y rellenar IDs de recursos en `wrangler.toml`.
+🟢 **Funcional, pendiente de credenciales.** Implementado y con tests en verde: webhook con
+verificación de firma + Queue + Durable Object; cerebro de Nia (tool-use, memoria con **resumen
+rolling**, **clasificador Haiku** en paralelo); **RAG** (ingesta web/PDF/texto + recuperación con
+Vectorize); transcripción de audio (Whisper); agenda Cal.com; escalado a Telegram; **seguimiento
+automático**; **botones interactivos**; y **panel admin** con endpoints de ingesta.
+
+**Para ponerlo en marcha** (ver [`docs/DEPLOY.md`](docs/DEPLOY.md)): credenciales + IDs de recursos
+en `wrangler.toml`, ingesta del contenido de la marca y URLs reales de los recursos de regalo
+(`src/resources.ts`).
+
+### Cargar la base de conocimiento (RAG)
+
+```bash
+# Ingesta directa de texto (evita el 403 del crawler):
+curl -X POST "https://<worker>/admin/ingest-text" -H "authorization: Bearer $ADMIN_TOKEN" \
+  -H 'content-type: application/json' -d '{"source":"servicios","text":"<contenido>"}'
+
+# O dispara el Workflow (URLs + PDFs subidos a R2 con prefijo kb/):
+curl -X POST "https://<worker>/admin/ingest" -H "authorization: Bearer $ADMIN_TOKEN" \
+  -H 'content-type: application/json' -d '{"urls":["https://www.crececonia.cl"]}'
+
+# Panel de leads (navegador):  https://<worker>/admin?token=$ADMIN_TOKEN
+```
 
 ## Puesta en marcha (local)
 

@@ -2,7 +2,12 @@
 
 /** Descarga una URL y devuelve su texto plano (limpieza simple de HTML). */
 export async function fetchText(url: string): Promise<string> {
-  const res = await fetch(url);
+  const res = await fetch(url, {
+    headers: {
+      'user-agent': 'Mozilla/5.0 (compatible; CrececoniaBot/1.0; +https://www.crececonia.cl)',
+      accept: 'text/html,application/xhtml+xml',
+    },
+  });
   const html = await res.text();
   // TODO: extracción de contenido principal (quitar nav/footer/aside).
   return html

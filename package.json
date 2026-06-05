@@ -15,7 +15,8 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.40.1"
+    "@anthropic-ai/sdk": "^0.40.1",
+    "unpdf": "^0.12.1"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.6.4",

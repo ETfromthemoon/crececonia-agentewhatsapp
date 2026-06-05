@@ -1,6 +1,6 @@
-import Anthropic from '@anthropic-ai/sdk';
+import type Anthropic from '@anthropic-ai/sdk';
 import type { Env } from '../env';
-import { anthropicGatewayBaseURL } from '../config';
+import { makeAnthropic } from './anthropic';
 
 export interface Classification {
   intent: 'faq' | 'interes_servicio' | 'agendar' | 'saludo' | 'otro';
@@ -16,18 +16,10 @@ export interface Classification {
 
 /**
  * Clasificación + extracción de campos de lead con el modelo barato (Haiku).
- * Útil para enrutar y para alimentar guardar_lead sin gastar el modelo de conversación.
- * (Fase 2: integrar su salida en el flujo del ConversationDO.)
+ * Se ejecuta en paralelo al flujo principal para captar datos sin sumar latencia.
  */
 export async function classifyMessage(env: Env, text: string): Promise<Classification> {
-  const anthropic = new Anthropic({
-    apiKey: env.ANTHROPIC_API_KEY,
-    baseURL: anthropicGatewayBaseURL(env.CF_ACCOUNT_ID, env.AI_GATEWAY_ID),
-    defaultHeaders: env.CF_AIG_TOKEN
-      ? { 'cf-aig-authorization': `Bearer ${env.CF_AIG_TOKEN}` }
-      : undefined,
-  });
-
+  const anthropic = makeAnthropic(env);
   const resp = await anthropic.messages.create({
     model: env.MODEL_CLASSIFY,
     max_tokens: 300,

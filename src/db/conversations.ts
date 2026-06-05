@@ -41,6 +41,49 @@ export async function recentMessages(
   return (res.results ?? []).reverse();
 }
 
+/** Mensajes en orden ascendente (para construir el resumen). */
+export async function getMessagesForSummary(
+  env: Env,
+  conversationId: string,
+  limit: number,
+): Promise<MessageRow[]> {
+  const res = await env.DB.prepare(
+    'SELECT direction, body FROM messages WHERE conversation_id = ? ORDER BY created_at ASC LIMIT ?',
+  )
+    .bind(conversationId, limit)
+    .all<MessageRow>();
+  return res.results ?? [];
+}
+
+export async function countMessages(env: Env, conversationId: string): Promise<number> {
+  const row = await env.DB.prepare(
+    'SELECT COUNT(*) AS n FROM messages WHERE conversation_id = ?',
+  )
+    .bind(conversationId)
+    .first<{ n: number }>();
+  return row?.n ?? 0;
+}
+
+export async function getConversationSummary(
+  env: Env,
+  conversationId: string,
+): Promise<string | null> {
+  const row = await env.DB.prepare('SELECT summary FROM conversations WHERE id = ?')
+    .bind(conversationId)
+    .first<{ summary: string | null }>();
+  return row?.summary ?? null;
+}
+
+export async function setConversationSummary(
+  env: Env,
+  conversationId: string,
+  summary: string,
+): Promise<void> {
+  await env.DB.prepare('UPDATE conversations SET summary = ?, updated_at = ? WHERE id = ?')
+    .bind(summary, Date.now(), conversationId)
+    .run();
+}
+
 export interface InsertMessageInput {
   id: string;
   conversationId: string;

@@ -1,17 +1,27 @@
-import Anthropic from '@anthropic-ai/sdk';
+import type Anthropic from '@anthropic-ai/sdk';
 import type { Env } from '../env';
 import type { IncomingJob } from '../types';
 import { SYSTEM_PROMPT } from './prompt';
 import { TOOLS } from './tools';
 import { runTool } from './toolHandlers';
-import { buildContext, persistTurn } from './memory';
+import { buildContext, persistTurn, summarizeConversation } from './memory';
+import { classifyMessage } from './classify';
+import { makeAnthropic } from './anthropic';
 import { sendText, markRead } from '../whatsapp/client';
 import { transcribeWhatsAppAudio } from '../audio/transcribe';
-import { MAX_OUTPUT_TOKENS, MAX_TOOL_ITERATIONS, anthropicGatewayBaseURL } from '../config';
+import { upsertLead } from '../db/leads';
+import { countMessages } from '../db/conversations';
+import {
+  MAX_OUTPUT_TOKENS,
+  MAX_TOOL_ITERATIONS,
+  SUMMARY_AFTER_MESSAGES,
+  SUMMARY_EVERY,
+} from '../config';
 
 /**
  * Procesa un mensaje entrante: resuelve el texto (transcribe audio si hace falta),
- * ejecuta el loop de tool-use de Claude y responde por WhatsApp.
+ * ejecuta el loop de tool-use de Claude y responde por WhatsApp. Además, en paralelo,
+ * clasifica/extrae datos del lead (modelo barato) y mantiene el resumen rolling.
  * Lo invoca el ConversationDO (serializado por conversación).
  */
 export async function processMessage(
@@ -24,27 +34,27 @@ export async function processMessage(
   const userText = await resolveUserText(job, env);
   if (!userText.trim()) return;
 
-  const anthropic = new Anthropic({
-    apiKey: env.ANTHROPIC_API_KEY,
-    baseURL: anthropicGatewayBaseURL(env.CF_ACCOUNT_ID, env.AI_GATEWAY_ID),
-    defaultHeaders: env.CF_AIG_TOKEN
-      ? { 'cf-aig-authorization': `Bearer ${env.CF_AIG_TOKEN}` }
-      : undefined,
-  });
+  // Clasificación/extracción en paralelo (no añade latencia a la respuesta).
+  const classifyPromise = classifyMessage(env, userText).catch(() => null);
 
+  const anthropic = makeAnthropic(env);
   const ctx = await buildContext(env, job, userText);
-  const messages: Anthropic.MessageParam[] = [
-    ...ctx.history,
-    { role: 'user', content: userText },
+  const messages = ctx.messages;
+
+  // Prompt caching: el system prompt es estable; el resumen va como bloque aparte.
+  const system: Anthropic.TextBlockParam[] = [
+    { type: 'text', text: SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } },
   ];
+  if (ctx.summary) {
+    system.push({ type: 'text', text: `Resumen de la conversación con este contacto: ${ctx.summary}` });
+  }
 
   let finalText = '';
   for (let i = 0; i < MAX_TOOL_ITERATIONS; i++) {
     const resp = await anthropic.messages.create({
       model: env.MODEL_CHAT,
       max_tokens: MAX_OUTPUT_TOKENS,
-      // Prompt caching: system + tools son estables entre turnos.
-      system: [{ type: 'text', text: SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }],
+      system,
       tools: TOOLS,
       messages,
     });
@@ -82,6 +92,28 @@ export async function processMessage(
   if (finalText) {
     await sendText(env, job.waId, finalText);
     await persistTurn(env, job, userText, finalText, ctx);
+  }
+
+  // Captura best-effort de datos del lead extraídos por el clasificador.
+  const c = await classifyPromise;
+  if (c?.lead && Object.values(c.lead).some((v) => v)) {
+    await upsertLead(env, job.waId, {
+      nombre: c.lead.nombre,
+      email: c.lead.email,
+      necesidad: c.lead.necesidad,
+      presupuesto: c.lead.presupuesto,
+      plazo: c.lead.plazo,
+    }).catch(() => undefined);
+  }
+
+  // Resumen rolling cuando la conversación crece (modelo barato).
+  try {
+    const n = await countMessages(env, ctx.conversationId);
+    if (n >= SUMMARY_AFTER_MESSAGES && n % SUMMARY_EVERY === 0) {
+      await summarizeConversation(env, ctx.conversationId);
+    }
+  } catch {
+    /* best-effort */
   }
 }
 

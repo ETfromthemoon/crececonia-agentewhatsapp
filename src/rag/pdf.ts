@@ -1,7 +1,8 @@
-/**
- * Extracción de texto de PDFs para la base de conocimiento.
- * TODO: integrar una librería compatible con Workers (p.ej. `unpdf`).
- */
-export async function extractPdfText(_data: ArrayBuffer): Promise<string> {
-  throw new Error('extractPdfText: pendiente de implementar (Fase 1/2)');
+import { extractText, getDocumentProxy } from 'unpdf';
+
+/** Extrae texto de un PDF (compatible con Workers vía unpdf). */
+export async function extractPdfText(data: ArrayBuffer): Promise<string> {
+  const pdf = await getDocumentProxy(new Uint8Array(data));
+  const { text } = await extractText(pdf, { mergePages: true });
+  return Array.isArray(text) ? text.join('\n') : text;
 }

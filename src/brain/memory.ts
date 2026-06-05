@@ -2,37 +2,67 @@ import type Anthropic from '@anthropic-ai/sdk';
 import type { Env } from '../env';
 import type { IncomingJob } from '../types';
 import { getOrCreateContact } from '../db/leads';
-import { getOrCreateConversation, recentMessages, insertMessage } from '../db/conversations';
+import {
+  getOrCreateConversation,
+  recentMessages,
+  insertMessage,
+  getConversationSummary,
+  setConversationSummary,
+  getMessagesForSummary,
+  type MessageRow,
+} from '../db/conversations';
+import { makeAnthropic } from './anthropic';
 import { HISTORY_WINDOW } from '../config';
 
 export interface ConversationContext {
   contactId: string;
   conversationId: string;
-  history: Anthropic.MessageParam[];
+  summary: string | null;
+  messages: Anthropic.MessageParam[];
 }
 
 /**
- * Construye el contexto de la conversación: identifica al contacto, su conversación
- * abierta y los últimos N mensajes como historial para Claude.
- * TODO (Fase 2): incorporar el resumen rolling para no reenviar todo el historial.
+ * Contexto de la conversación: contacto, conversación abierta, resumen rolling y los
+ * últimos mensajes ya normalizados (alternando roles e incluyendo el mensaje actual).
  */
 export async function buildContext(
   env: Env,
   job: IncomingJob,
-  _userText: string,
+  userText: string,
 ): Promise<ConversationContext> {
   const contact = await getOrCreateContact(env, job.waId, job.contactName ?? null);
   const conversation = await getOrCreateConversation(env, contact.id);
-  const rows = await recentMessages(env, conversation.id, HISTORY_WINDOW);
+  const [rows, summary] = await Promise.all([
+    recentMessages(env, conversation.id, HISTORY_WINDOW),
+    getConversationSummary(env, conversation.id),
+  ]);
+  return {
+    contactId: contact.id,
+    conversationId: conversation.id,
+    summary,
+    messages: toMessages(rows, userText),
+  };
+}
 
-  const history: Anthropic.MessageParam[] = rows
+/** Normaliza a un historial válido para Anthropic: empieza en user y alterna roles. */
+function toMessages(rows: MessageRow[], currentUserText: string): Anthropic.MessageParam[] {
+  const raw: Anthropic.MessageParam[] = rows
     .filter((r) => (r.body ?? '').trim().length > 0)
-    .map((r) => ({
-      role: r.direction === 'inbound' ? 'user' : 'assistant',
-      content: r.body ?? '',
-    }));
+    .map((r) => ({ role: r.direction === 'inbound' ? 'user' : 'assistant', content: r.body ?? '' }));
+  raw.push({ role: 'user', content: currentUserText });
 
-  return { contactId: contact.id, conversationId: conversation.id, history };
+  while (raw.length && raw[0].role === 'assistant') raw.shift();
+
+  const merged: Anthropic.MessageParam[] = [];
+  for (const m of raw) {
+    const last = merged[merged.length - 1];
+    if (last && last.role === m.role) {
+      last.content = `${last.content as string}\n${m.content as string}`;
+    } else {
+      merged.push({ role: m.role, content: m.content });
+    }
+  }
+  return merged;
 }
 
 /** Persiste el turno (mensaje entrante + respuesta del agente) en D1. */
@@ -62,4 +92,27 @@ export async function persistTurn(
     body: assistantText,
     createdAt: now + 1,
   });
+}
+
+/** Resume la conversación (modelo barato) y guarda el resumen en D1. */
+export async function summarizeConversation(env: Env, conversationId: string): Promise<void> {
+  const rows = await getMessagesForSummary(env, conversationId, 60);
+  if (rows.length < 6) return;
+
+  const transcript = rows
+    .map((r) => `${r.direction === 'inbound' ? 'Cliente' : 'Nia'}: ${r.body ?? ''}`)
+    .join('\n');
+
+  const anthropic = makeAnthropic(env);
+  const resp = await anthropic.messages.create({
+    model: env.MODEL_CLASSIFY,
+    max_tokens: 256,
+    system:
+      'Resume esta conversación de WhatsApp en 3-5 frases: necesidad del contacto, estado del ' +
+      'lead, acuerdos y próximos pasos. Español, conciso.',
+    messages: [{ role: 'user', content: transcript }],
+  });
+
+  const block = resp.content.find((b): b is Anthropic.TextBlock => b.type === 'text');
+  if (block?.text) await setConversationSummary(env, conversationId, block.text.trim());
 }
