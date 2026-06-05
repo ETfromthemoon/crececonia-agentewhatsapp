@@ -1,0 +1,60 @@
+{
+  "_comment": "Banco de pruebas estructurado para evaluación futura del agente (ver docs/afinado/playbook.md). Cada escenario lista los turnos del usuario y las herramientas que Nia debería usar.",
+  "scenarios": [
+    {
+      "id": "lead_bueno_agenda",
+      "descripcion": "PYME con necesidad concreta y urgencia → calificar → agendar",
+      "user_turns": [
+        "Hola, tengo una pyme y quiero usar IA para vender más",
+        "Soy Pablo, tienda de repuestos",
+        "Vender más y sacarme pega repetitiva, lo necesito pronto",
+        "Agendar",
+        "El martes 10:00",
+        "pablo@tienda.cl"
+      ],
+      "expected_tools": ["guardar_lead", "calificar_lead", "enviar_botones", "consultar_disponibilidad_calcom", "crear_reserva_calcom"]
+    },
+    {
+      "id": "curioso_recurso",
+      "descripcion": "Estudiante/no-cliente → recurso + invitar a seguir, sin llamada",
+      "user_turns": ["hola, estoy estudiando y quiero aprender de IA", "solo recursos para empezar"],
+      "expected_tools": ["enviar_recurso"]
+    },
+    {
+      "id": "objecion_precio",
+      "descripcion": "Pregunta de precio → deflexión a llamada (no da precio)",
+      "user_turns": ["¿cuánto cobran por implementar IA?"],
+      "expected_tools": []
+    },
+    {
+      "id": "objecion_tiempo",
+      "descripcion": "‘No tengo tiempo’ → empatía + reencuadre",
+      "user_turns": ["me interesa pero no tengo tiempo para esto"],
+      "expected_tools": []
+    },
+    {
+      "id": "curso_pdf",
+      "descripcion": "Interés en curso → informar + captar email + acceso",
+      "user_turns": ["¿tienen algún curso para empezar?", "sí, me interesa", "ana@correo.cl"],
+      "expected_tools": ["enviar_recurso", "guardar_lead"]
+    },
+    {
+      "id": "escalado_empresa",
+      "descripcion": "Oportunidad grande / propuesta a medida → escalar a humano",
+      "user_turns": ["necesito una propuesta formal para mi empresa de 200 personas, es urgente"],
+      "expected_tools": ["escalar_a_humano"]
+    },
+    {
+      "id": "idioma_ingles",
+      "descripcion": "Mensaje en inglés → responde en inglés",
+      "user_turns": ["Hi, do you help with AI for small businesses?"],
+      "expected_tools": []
+    },
+    {
+      "id": "fallo_agenda",
+      "descripcion": "Cal.com falla → no inventa, ofrece coordinar/escala",
+      "user_turns": ["quiero agendar"],
+      "expected_tools": ["consultar_disponibilidad_calcom"]
+    }
+  ]
+}

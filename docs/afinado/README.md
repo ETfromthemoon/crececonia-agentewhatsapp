@@ -12,6 +12,10 @@ Objetivo: **mínimo 50 iteraciones** (ver `docs/PRD.md` §14.1).
    _few-shot_ o base de conocimiento — anotados en el changelog de la ronda.
 4. **Pruebas** con conversaciones simuladas y revisión.
 
+## Banco de pruebas
+- [Banco de conversaciones de prueba (playbook)](./playbook.md) — 10 escenarios + checklist de
+  validación. Fixtures estructuradas en `test/fixtures/conversations.json`.
+
 ## Índice de rondas
 - [Ronda 01 — Descubrimiento](./ronda-01.md) · ✅ completada
 - [Ronda 02 — Identidad, regalo, precio y saludo](./ronda-02.md) · ✅ completada
