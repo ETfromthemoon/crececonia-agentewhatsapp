@@ -1,0 +1,27 @@
+{
+  "name": "crececonia-agentewhatsapp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Agente de WhatsApp con cerebro Claude sobre Cloudflare Workers para la marca personal de IA de Sergio",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:migrate:local": "wrangler d1 migrations apply crececonia-leads --local",
+    "db:migrate:remote": "wrangler d1 migrations apply crececonia-leads --remote",
+    "cf-typegen": "wrangler types"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.1"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.6.4",
+    "@cloudflare/workers-types": "^4.20250510.0",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.9",
+    "wrangler": "^4.6.0"
+  }
+}

@@ -1,0 +1,102 @@
+name = "crececonia-agentewhatsapp"
+main = "src/index.ts"
+compatibility_date = "2026-06-01"
+compatibility_flags = ["nodejs_compat"]
+
+# =====================================================================
+# Durable Objects — orden/estado por conversación (uno por wa_id)
+# =====================================================================
+[[durable_objects.bindings]]
+name = "CONVERSATION_DO"
+class_name = "ConversationDO"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["ConversationDO"]
+
+# =====================================================================
+# D1 — base de datos relacional (leads, conversaciones, mensajes, reservas)
+# Crear con: wrangler d1 create crececonia-leads  → pega el database_id
+# =====================================================================
+[[d1_databases]]
+binding = "DB"
+database_name = "crececonia-leads"
+database_id = "REPLACE_AFTER__wrangler_d1_create"
+migrations_dir = "migrations"
+
+# =====================================================================
+# KV — dedupe, mapeos, rate-limit, caché RAG
+# Crear con: wrangler kv namespace create KV  → pega el id
+# =====================================================================
+[[kv_namespaces]]
+binding = "KV"
+id = "REPLACE_AFTER__wrangler_kv_namespace_create"
+
+# =====================================================================
+# Vectorize — índice RAG (1024 dim, coseno)
+# Crear con: wrangler vectorize create crececonia-kb --dimensions=1024 --metric=cosine
+# =====================================================================
+[[vectorize]]
+binding = "VECTORIZE"
+index_name = "crececonia-kb"
+
+# =====================================================================
+# R2 — audios originales (.ogg), PDFs fuente, exports
+# Crear con: wrangler r2 bucket create crececonia-media
+# =====================================================================
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "crececonia-media"
+
+# =====================================================================
+# Workers AI — Whisper (transcripción) + bge-m3 (embeddings)
+# =====================================================================
+[ai]
+binding = "AI"
+
+# =====================================================================
+# Queues — recepción asíncrona (productor en el webhook, consumidor en el Worker)
+# Crear con: wrangler queues create whatsapp-incoming ; wrangler queues create whatsapp-dlq
+# =====================================================================
+[[queues.producers]]
+binding = "INCOMING_QUEUE"
+queue = "whatsapp-incoming"
+
+[[queues.consumers]]
+queue = "whatsapp-incoming"
+max_batch_size = 10
+max_batch_timeout = 2
+max_retries = 3
+dead_letter_queue = "whatsapp-dlq"
+
+# =====================================================================
+# Workflows — ingesta RAG (largo, reanudable) y nurture/follow-up
+# =====================================================================
+[[workflows]]
+name = "rag-ingest"
+binding = "RAG_INGEST"
+class_name = "RagIngestWorkflow"
+
+# =====================================================================
+# Cron — resúmenes rolling, limpieza, follow-ups programados
+# =====================================================================
+[triggers]
+crons = ["0 */6 * * *"]
+
+# =====================================================================
+# Variables NO secretas. Los SECRETS van por `wrangler secret put`
+# (ver .dev.vars.example): WHATSAPP_TOKEN, WHATSAPP_VERIFY_TOKEN, APP_SECRET,
+# ANTHROPIC_API_KEY, CF_AIG_TOKEN, CALCOM_API_KEY, TELEGRAM_BOT_TOKEN,
+# TELEGRAM_CHAT_ID, ADMIN_TOKEN
+# =====================================================================
+[vars]
+WHATSAPP_PHONE_NUMBER_ID = ""
+WHATSAPP_GRAPH_VERSION = "v23.0"
+CF_ACCOUNT_ID = ""
+AI_GATEWAY_ID = "crececonia"
+CALCOM_EVENT_TYPE_ID = ""
+CALCOM_API_VERSION_SLOTS = "2024-09-04"
+CALCOM_API_VERSION_BOOKINGS = "2026-02-25"
+MODEL_CLASSIFY = "claude-haiku-4-5"
+MODEL_CHAT = "claude-sonnet-4-6"
+ESCALATION_PROVIDER = "telegram"
