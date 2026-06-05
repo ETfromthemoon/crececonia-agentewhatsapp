@@ -88,6 +88,12 @@ export async function processMessage(
 async function resolveUserText(job: IncomingJob, env: Env): Promise<string> {
   if (job.message.type === 'text') return job.message.text?.body ?? '';
 
+  if (job.message.type === 'interactive') {
+    // El usuario tocó un botón / opción de lista: usamos su título como texto.
+    const reply = job.message.interactive?.button_reply ?? job.message.interactive?.list_reply;
+    return reply?.title ?? reply?.id ?? '';
+  }
+
   if (job.message.type === 'audio' && job.message.audio) {
     await sendText(env, job.waId, 'Dame un segundo, escucho tu audio… 🎧').catch(() => undefined);
     return transcribeWhatsAppAudio(env, job.message.audio.id, job.waId, job.message.id);

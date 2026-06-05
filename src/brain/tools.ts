@@ -92,6 +92,31 @@ export const TOOLS: Anthropic.Tool[] = [
     },
   },
   {
+    name: 'enviar_botones',
+    description:
+      'Envía un mensaje con hasta 3 botones de respuesta rápida (WhatsApp). Úsalo para acciones ' +
+      'claras como agendar, pedir el pack o el curso. Si lo usas, NO repitas el texto después.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        texto: { type: 'string', description: 'Mensaje que acompaña a los botones' },
+        botones: {
+          type: 'array',
+          description: 'Hasta 3 botones',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              titulo: { type: 'string', description: 'máx 20 caracteres' },
+            },
+            required: ['id', 'titulo'],
+          },
+        },
+      },
+      required: ['texto', 'botones'],
+    },
+  },
+  {
     name: 'escalar_a_humano',
     description:
       'Notifica a Sergio y pausa el bot. Úsalo si piden un humano, hay enfado, o el caso ' +

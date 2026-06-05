@@ -5,6 +5,7 @@ import { upsertLead, qualifyLead, setHumanHandoff } from '../db/leads';
 import { getSlots, createBooking } from '../calcom/client';
 import { insertBooking } from '../db/bookings';
 import { notifyEscalation } from '../notify/escalate';
+import { sendInteractiveButtons } from '../whatsapp/client';
 import { getResource } from '../resources';
 import { DEFAULT_TIMEZONE } from '../config';
 
@@ -58,6 +59,12 @@ export async function runTool(
       const r = getResource(String(input.recurso_id));
       if (!r) return { ok: false, error: 'recurso no encontrado' };
       return { ok: true, recurso_id: r.id, titulo: r.titulo, url: r.url, descripcion: r.descripcion };
+    }
+
+    case 'enviar_botones': {
+      const botones = Array.isArray(input.botones) ? input.botones : [];
+      await sendInteractiveButtons(env, job.waId, String(input.texto ?? ''), botones);
+      return { ok: true, enviado: true };
     }
 
     case 'escalar_a_humano': {

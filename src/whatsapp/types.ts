@@ -39,5 +39,9 @@ export interface WhatsAppMessage {
   text?: { body: string };
   audio?: { id: string; mime_type: string; voice?: boolean };
   image?: { id: string; mime_type: string; caption?: string };
-  interactive?: unknown;
+  interactive?: {
+    type?: string;
+    button_reply?: { id: string; title: string };
+    list_reply?: { id: string; title: string };
+  };
 }

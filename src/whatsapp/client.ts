@@ -38,6 +38,31 @@ export async function sendTemplate(
   });
 }
 
+/**
+ * Envía un mensaje con hasta 3 botones de respuesta rápida (WhatsApp interactive).
+ * Los títulos se truncan a 20 caracteres (límite de Meta).
+ */
+export async function sendInteractiveButtons(
+  env: Env,
+  to: string,
+  bodyText: string,
+  buttons: { id: string; titulo: string }[],
+): Promise<void> {
+  const action = {
+    buttons: buttons.slice(0, 3).map((b) => ({
+      type: 'reply',
+      reply: { id: b.id, title: b.titulo.slice(0, 20) },
+    })),
+  };
+  await graph(env, {
+    messaging_product: 'whatsapp',
+    recipient_type: 'individual',
+    to,
+    type: 'interactive',
+    interactive: { type: 'button', body: { text: bodyText }, action },
+  });
+}
+
 async function graph(env: Env, payload: unknown): Promise<void> {
   const url = `https://graph.facebook.com/${env.WHATSAPP_GRAPH_VERSION}/${env.WHATSAPP_PHONE_NUMBER_ID}/messages`;
   const res = await fetch(url, {
