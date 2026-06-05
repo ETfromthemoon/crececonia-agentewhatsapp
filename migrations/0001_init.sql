@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS conversations (
   summary          TEXT,                          -- resumen rolling (espejo del DO)
   last_inbound_at  INTEGER,                        -- para ventana 24h
   last_outbound_at INTEGER,
+  followup_sent    INTEGER NOT NULL DEFAULT 0,     -- recordatorio suave enviado (1 vez)
   created_at       INTEGER NOT NULL,
   updated_at       INTEGER NOT NULL
 );

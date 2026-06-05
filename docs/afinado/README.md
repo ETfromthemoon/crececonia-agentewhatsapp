@@ -16,6 +16,7 @@ Objetivo: **mínimo 50 iteraciones** (ver `docs/PRD.md` §14.1).
 - [Ronda 01 — Descubrimiento](./ronda-01.md) · ✅ completada
 - [Ronda 02 — Identidad, regalo, precio y saludo](./ronda-02.md) · ✅ completada
 - [Ronda 03 — Llamada, presupuesto, no-clientes y voz](./ronda-03.md) · ✅ completada
+- [Ronda 04 — Objeciones, seguimiento, cierre y cursos](./ronda-04.md) · ✅ completada
 
 ## Changelog del prompt/persona
 | Fecha | Ronda | Cambio | Archivo |
@@ -24,3 +25,4 @@ Objetivo: **mínimo 50 iteraciones** (ver `docs/PRD.md` §14.1).
 | 2026-06 | 01 | Persona Crececonia (es-CL): posicionamiento, tono, oferta, precios→llamada, calificación, escalado, alcance de marca | `src/brain/prompt.ts`, `src/config.ts`, `src/brain/tools.ts`, `src/db/leads.ts` |
 | 2026-06 | 02 | Nombre **Nia**, ejemplos few-shot (saludo/precio/regalo), catálogo de recursos | `src/brain/prompt.ts`, `src/config.ts`, `src/resources.ts`, `src/brain/toolHandlers.ts` |
 | 2026-06 | 03 | Llamada 30 min, calificación por señales, manejo de no-clientes, voz chilena suave | `src/brain/prompt.ts`, `src/config.ts` |
+| 2026-06 | 04 | Objeciones (empatía+reencuadre), cierre proactivo, cursos, **seguimiento automático** (cron + `followup_sent`) | `src/brain/prompt.ts`, `src/resources.ts`, `src/followup/followup.ts`, `src/index.ts` |

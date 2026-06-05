@@ -61,8 +61,10 @@ export async function insertMessage(env: Env, m: InsertMessageInput): Promise<vo
     .run();
 
   const tsField = m.direction === 'inbound' ? 'last_inbound_at' : 'last_outbound_at';
+  // Un mensaje entrante reinicia el flag de recordatorio (puede volver a programarse).
+  const resetFollowup = m.direction === 'inbound' ? ', followup_sent = 0' : '';
   await env.DB.prepare(
-    `UPDATE conversations SET ${tsField} = ?, updated_at = ? WHERE id = ?`,
+    `UPDATE conversations SET ${tsField} = ?, updated_at = ?${resetFollowup} WHERE id = ?`,
   )
     .bind(m.createdAt, m.createdAt, m.conversationId)
     .run();

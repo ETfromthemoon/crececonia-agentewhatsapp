@@ -17,6 +17,12 @@ export const RESOURCES: Record<string, Resource> = {
     url: '', // TODO: enlace real (R2 o público)
     descripcion: 'Plantillas de prompts listos para usar en una pyme.',
   },
+  curso_ia_basico: {
+    id: 'curso_ia_basico',
+    titulo: 'Curso básico de IA para PYMEs (PDF)',
+    url: '', // TODO: enlace de acceso/compra
+    descripcion: 'Curso introductorio en PDF para partir con IA en tu pyme.',
+  },
 };
 
 export function getResource(id: string): Resource | undefined {
