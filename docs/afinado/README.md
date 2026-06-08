@@ -24,6 +24,7 @@ Objetivo: **mínimo 50 iteraciones** (ver `docs/PRD.md` §14.1).
 - [Ronda 05 — Idiomas, confirmación, postventa y robustez](./ronda-05.md) · ✅ completada
 - [Ronda 06 — Privacidad, botones, nombre y escalado](./ronda-06.md) · ✅ completada
 - [Ronda 07 — Reagendar/cancelar, precio, disponibilidad y despedida](./ronda-07.md) · ✅ completada
+- [Ronda 08 — Garantías, borrado de datos, fusión de mensajes y apertura](./ronda-08.md) · ✅ completada
 
 ## Changelog del prompt/persona
 | Fecha | Ronda | Cambio | Archivo |
@@ -36,3 +37,4 @@ Objetivo: **mínimo 50 iteraciones** (ver `docs/PRD.md` §14.1).
 | 2026-06 | 05 | Idioma del usuario, confirmación de reserva, postventa→escalado, robustez ante fallos | `src/brain/prompt.ts` |
 | 2026-06 | 06 | Privacidad (permiso email), **botones interactivos** (feature), captura de nombre, "Sergio del equipo" | `src/brain/prompt.ts`, `src/whatsapp/client.ts`, `src/brain/tools.ts`, `src/whatsapp/types.ts` |
 | 2026-06 | 07 | **Reprogramar/cancelar reservas** (tools Cal.com), precio orientativo configurable, disponibilidad 24/7, despedida con puerta abierta | `src/calcom/client.ts`, `src/db/bookings.ts`, `src/brain/tools.ts`, `src/brain/toolHandlers.ts`, `src/brain/prompt.ts`, `src/config.ts` |
+| 2026-06 | 08 | Garantías (casos reales sin prometer), **borrado de datos** (tool `borrar_mis_datos`), **fusión de mensajes** (buffer+debounce en el DO, §20.8), apertura mínima | `src/do/ConversationDO.ts`, `src/brain/claude.ts`, `src/db/leads.ts`, `src/brain/tools.ts`, `src/brain/toolHandlers.ts`, `src/brain/prompt.ts`, `src/config.ts` |

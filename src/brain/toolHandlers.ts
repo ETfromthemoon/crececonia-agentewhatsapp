@@ -1,7 +1,7 @@
 import type { Env } from '../env';
 import type { IncomingJob } from '../types';
 import { retrieve } from '../rag/retrieve';
-import { upsertLead, qualifyLead, setHumanHandoff } from '../db/leads';
+import { upsertLead, qualifyLead, setHumanHandoff, deleteContactData } from '../db/leads';
 import { getSlots, createBooking, rescheduleBooking, cancelBooking } from '../calcom/client';
 import {
   insertBooking,
@@ -92,6 +92,10 @@ export async function runTool(
       const botones = Array.isArray(input.botones) ? input.botones : [];
       await sendInteractiveButtons(env, job.waId, String(input.texto ?? ''), botones);
       return { ok: true, enviado: true };
+    }
+
+    case 'borrar_mis_datos': {
+      return deleteContactData(env, job.waId);
     }
 
     case 'escalar_a_humano': {

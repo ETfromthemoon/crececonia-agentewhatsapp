@@ -95,3 +95,47 @@ export async function listLeads(env: Env, limit = 100): Promise<unknown[]> {
     .all();
   return res.results ?? [];
 }
+
+/**
+ * Borra/anonimiza los datos personales del contacto (Ley 19.628 de Chile). Irreversible:
+ * limpia PII del contacto, vacía el cuerpo de sus mensajes y referencias a media, borra
+ * resúmenes, anonimiza reservas y elimina sus audios de R2 (best-effort).
+ */
+export async function deleteContactData(env: Env, waId: string): Promise<{ ok: boolean }> {
+  const contact = await env.DB.prepare('SELECT id FROM contacts WHERE wa_id = ?')
+    .bind(waId)
+    .first<{ id: string }>();
+  if (!contact) return { ok: true };
+
+  const now = Date.now();
+  await env.DB.prepare(
+    `UPDATE contacts SET full_name = NULL, email = NULL, profile_name = NULL, company = NULL,
+       need = NULL, budget = NULL, timeline = NULL, web_socials = NULL, consent = 0,
+       lead_status = 'lost', updated_at = ? WHERE id = ?`,
+  )
+    .bind(now, contact.id)
+    .run();
+
+  await env.DB.prepare(
+    "UPDATE messages SET body = '[borrado a petición del usuario]', media_r2_key = NULL WHERE contact_id = ?",
+  )
+    .bind(contact.id)
+    .run();
+
+  await env.DB.prepare('UPDATE conversations SET summary = NULL, updated_at = ? WHERE contact_id = ?')
+    .bind(now, contact.id)
+    .run();
+  await env.DB.prepare('UPDATE bookings SET attendee_email = NULL WHERE contact_id = ?')
+    .bind(contact.id)
+    .run();
+
+  // Best-effort: elimina los audios del contacto en R2.
+  try {
+    const listed = await env.R2.list({ prefix: `audios/${waId}/` });
+    await Promise.all(listed.objects.map((o) => env.R2.delete(o.key)));
+  } catch {
+    /* best-effort */
+  }
+
+  return { ok: true };
+}

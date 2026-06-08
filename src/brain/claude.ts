@@ -24,21 +24,30 @@ import {
  * clasifica/extrae datos del lead (modelo barato) y mantiene el resumen rolling.
  * Lo invoca el ConversationDO (serializado por conversación).
  */
-export async function processMessage(
-  job: IncomingJob,
+export async function processTurn(
+  jobs: IncomingJob[],
   env: Env,
   _state: DurableObjectState,
 ): Promise<void> {
-  await markRead(env, job.message.id).catch(() => undefined);
+  if (jobs.length === 0) return;
+  // El "carrier" (último mensaje del bloque) representa el turno para waId/persistencia.
+  const carrier = jobs[jobs.length - 1];
 
-  const userText = await resolveUserText(job, env);
-  if (!userText.trim()) return;
+  // Marca leído y resuelve+fusiona el texto de los mensajes del bloque (transcribe audios).
+  const parts: string[] = [];
+  for (const job of jobs) {
+    await markRead(env, job.message.id).catch(() => undefined);
+    const t = (await resolveUserText(job, env)).trim();
+    if (t) parts.push(t);
+  }
+  const userText = parts.join('\n');
+  if (!userText) return;
 
   // Clasificación/extracción en paralelo (no añade latencia a la respuesta).
   const classifyPromise = classifyMessage(env, userText).catch(() => null);
 
   const anthropic = makeAnthropic(env);
-  const ctx = await buildContext(env, job, userText);
+  const ctx = await buildContext(env, carrier, userText);
   const messages = ctx.messages;
 
   // Prompt caching: el system prompt es estable; el resumen va como bloque aparte.
@@ -50,6 +59,7 @@ export async function processMessage(
   }
 
   let finalText = '';
+  let dataDeleted = false;
   for (let i = 0; i < MAX_TOOL_ITERATIONS; i++) {
     const resp = await anthropic.messages.create({
       model: env.MODEL_CHAT,
@@ -65,9 +75,10 @@ export async function processMessage(
       const results: Anthropic.ToolResultBlockParam[] = [];
       for (const block of resp.content) {
         if (block.type === 'tool_use') {
+          if (block.name === 'borrar_mis_datos') dataDeleted = true;
           const out = await runTool(block.name, block.input as Record<string, any>, {
             env,
-            job,
+            job: carrier,
             contactId: ctx.contactId,
           });
           results.push({
@@ -90,14 +101,17 @@ export async function processMessage(
   }
 
   if (finalText) {
-    await sendText(env, job.waId, finalText);
-    await persistTurn(env, job, userText, finalText, ctx);
+    await sendText(env, carrier.waId, finalText);
+    // Si pidió borrar sus datos, NO repersistimos este turno (respeta el borrado).
+    if (!dataDeleted) await persistTurn(env, carrier, userText, finalText, ctx);
   }
+
+  if (dataDeleted) return;
 
   // Captura best-effort de datos del lead extraídos por el clasificador.
   const c = await classifyPromise;
   if (c?.lead && Object.values(c.lead).some((v) => v)) {
-    await upsertLead(env, job.waId, {
+    await upsertLead(env, carrier.waId, {
       nombre: c.lead.nombre,
       email: c.lead.email,
       necesidad: c.lead.necesidad,

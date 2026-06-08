@@ -317,9 +317,9 @@ entrante normal. Mostrar "Dame un segundo, escucho tu audio…" para gestionar l
 4. **Latencia percibida:** mitigar con "leído"/typing, Haiku rápido, AI Gateway + prompt caching.
 5. **Coste Claude:** híbrido + resúmenes + caching + límite de iteraciones; vigilar AI Gateway.
 6. **Calidad RAG en español:** validar con consultas reales (bge-m3 multilingüe); ajustar umbral.
-7. **Cal.com:** confirmar `eventTypeId`, zona horaria (Europe/Madrid), `start` en UTC ISO 8601.
-8. **Fusión de mensajes:** ¿agrupar varios mensajes seguidos? Recomendado buffer+debounce en el DO.
-9. **Privacidad/RGPD:** base legal, retención y borrado a petición.
+7. **Cal.com:** confirmar `eventTypeId`, zona horaria (America/Santiago), `start` en UTC ISO 8601.
+8. **Fusión de mensajes:** ✅ resuelto (Ronda 8) — buffer+debounce en el DO (`DEBOUNCE_MS`), fusiona la ráfaga en un turno.
+9. **Privacidad/Ley 19.628:** base legal, retención y borrado a petición (✅ tool `borrar_mis_datos`, Ronda 8).
 10. **Caída de externos:** fallback (cortesía + escalado) + reintentos con DLQ.
 
 ## 21. Archivos críticos

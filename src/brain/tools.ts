@@ -143,6 +143,18 @@ export const TOOLS: Anthropic.Tool[] = [
     },
   },
   {
+    name: 'borrar_mis_datos',
+    description:
+      'Borra y anonimiza los datos personales del contacto (Ley 19.628). Úsalo SOLO si la persona ' +
+      'pide explícitamente borrar sus datos o no guardar nada, y tras confirmarlo UNA vez. Es irreversible.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        motivo: { type: 'string', description: 'Motivo o nota (opcional)' },
+      },
+    },
+  },
+  {
     name: 'escalar_a_humano',
     description:
       'Notifica a Sergio y pausa el bot. Úsalo si piden un humano, hay enfado, o el caso ' +

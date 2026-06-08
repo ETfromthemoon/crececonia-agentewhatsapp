@@ -13,6 +13,7 @@ export const FOLLOWUP_AFTER_HOURS = 20; // recordatorio suave si no responden (d
 export const SERVICE_WINDOW_HOURS = 24; // ventana de servicio de WhatsApp (free-form)
 export const SUMMARY_AFTER_MESSAGES = 24; // empezar a resumir cuando la conversación crece
 export const SUMMARY_EVERY = 10; // re-resumir cada N mensajes
+export const DEBOUNCE_MS = 4000; // ventana para fusionar mensajes seguidos en un turno (DO)
 
 /**
  * Rango de precio ORIENTATIVO para cuando el cliente insiste tras reencuadrar (Ronda 7).
