@@ -14,6 +14,14 @@ export const SERVICE_WINDOW_HOURS = 24; // ventana de servicio de WhatsApp (free
 export const SUMMARY_AFTER_MESSAGES = 24; // empezar a resumir cuando la conversación crece
 export const SUMMARY_EVERY = 10; // re-resumir cada N mensajes
 
+/**
+ * Rango de precio ORIENTATIVO para cuando el cliente insiste tras reencuadrar (Ronda 7).
+ * Nia solo lo usa si insisten; aclara que el precio final depende del caso y propone la llamada.
+ * Déjalo en '' si prefieres no dar nunca cifras por chat.
+ * TODO Sergio: pon el rango real, p. ej. 'los proyectos parten desde $X CLP'.
+ */
+export const PRICE_RANGE_HINT = '';
+
 /** Datos de marca (Crececonia). */
 export const BRAND = {
   name: 'Crececonia',

@@ -81,3 +81,53 @@ export async function createBooking(env: Env, input: Record<string, any>): Promi
     start: data.data?.start ?? String(input.start),
   };
 }
+
+/**
+ * Reprograma una reserva (Cal.com v2 `POST /bookings/{uid}/reschedule`).
+ * Cal.com genera un uid NUEVO; devolvemos ese. `start` debe ir en UTC ISO 8601.
+ * Devuelve null si la API falla (Nia lo gestiona con un mensaje de cortesía).
+ */
+export async function rescheduleBooking(
+  env: Env,
+  bookingUid: string,
+  start: string,
+  motivo?: string,
+): Promise<CalBooking | null> {
+  const res = await fetch(`${CAL_BASE}/bookings/${bookingUid}/reschedule`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${env.CALCOM_API_KEY}`,
+      'cal-api-version': env.CALCOM_API_VERSION_BOOKINGS,
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ start, ...(motivo ? { reschedulingReason: motivo } : {}) }),
+  });
+  if (!res.ok) {
+    console.error('cal.com reschedule failed', res.status, await res.text());
+    return null;
+  }
+  const data = (await res.json()) as { data?: { uid?: string; meetingUrl?: string; start?: string } };
+  return {
+    booking_uid: data.data?.uid ?? bookingUid,
+    meeting_url: data.data?.meetingUrl ?? '',
+    start: data.data?.start ?? start,
+  };
+}
+
+/** Cancela una reserva (Cal.com v2 `POST /bookings/{uid}/cancel`). */
+export async function cancelBooking(env: Env, bookingUid: string, motivo?: string): Promise<boolean> {
+  const res = await fetch(`${CAL_BASE}/bookings/${bookingUid}/cancel`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${env.CALCOM_API_KEY}`,
+      'cal-api-version': env.CALCOM_API_VERSION_BOOKINGS,
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(motivo ? { cancellationReason: motivo } : {}),
+  });
+  if (!res.ok) {
+    console.error('cal.com cancel failed', res.status, await res.text());
+    return false;
+  }
+  return true;
+}

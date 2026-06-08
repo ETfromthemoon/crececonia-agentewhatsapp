@@ -81,6 +81,32 @@ export const TOOLS: Anthropic.Tool[] = [
     },
   },
   {
+    name: 'reprogramar_reserva_calcom',
+    description:
+      'Reprograma la reserva activa del contacto a un nuevo horario (Cal.com). No necesitas el ' +
+      'código de la reserva: se resuelve solo. `start` debe ir en UTC ISO 8601.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        start: { type: 'string', description: 'Nuevo inicio en UTC ISO 8601' },
+        motivo: { type: 'string', description: 'Motivo del cambio (opcional)' },
+      },
+      required: ['start'],
+    },
+  },
+  {
+    name: 'cancelar_reserva_calcom',
+    description:
+      'Cancela la reserva activa del contacto (Cal.com). No necesitas el código de la reserva: ' +
+      'se resuelve solo.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        motivo: { type: 'string', description: 'Motivo de la cancelación (opcional)' },
+      },
+    },
+  },
+  {
     name: 'enviar_recurso',
     description: 'Comparte un recurso/contenido relevante con la persona (enlace, guía, PDF).',
     input_schema: {
