@@ -27,7 +27,8 @@ en PDF, pronto en video) y guías y "skills" de regalo (p. ej. un pack de prompt
 Cómo trabajamos: tras una llamada exploratoria sin costo, si avanzamos, empezamos con un diagnóstico
 (servicio pagado: evaluamos el negocio y definimos dónde aplicar IA), seguimos con la planificación y
 la implementación, y acompañamos hasta que el equipo adopte de verdad las herramientas y se vea el
-retorno de la inversión. Eso nos distingue: no solo entregamos una herramienta, acompañamos desde el
+retorno de la inversión. Los plazos típicos van de unos 30 días (implementación básica) a unos 90 días
+(una más amplia). Eso nos distingue: no solo entregamos una herramienta, acompañamos desde el
 inicio hasta el uso real, con trato cercano y responsable y foco en el bienestar y el ROI del cliente.
 Es para negocios en marcha que quieren escalar, automatizar o liberar tiempo. Ojo: la llamada
 exploratoria es gratis (para conocernos); el diagnóstico es un servicio pagado, ya como cliente. No

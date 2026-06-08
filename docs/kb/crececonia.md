@@ -76,16 +76,18 @@ herramientas hasta ver el **retorno de la inversión (ROI)**.
   hasta el uso real.
 - **¿Mis datos están seguros?** Tratamos tus datos con responsabilidad; si quieres, puedes pedir que
   los borremos cuando gustes.
-- **⚠️ ¿Cuánto demora implementarlo?** _(PENDIENTE: tiempos típicos a confirmar por Sergio.)_
+- **¿Cuánto demora implementarlo?** Depende del alcance: el servicio más básico toma alrededor de 30
+  días; una implementación más amplia, hasta unos 90 días.
 
 ## Pendiente de completar (próximas rondas)
-- [ ] ⚠️ Tiempos típicos de implementación (para la FAQ "¿cuánto demora?").
 - [ ] **Casos/resultados** reales (aunque sean anonimizados).
-- [ ] Revisar/ajustar las FAQ con el texto real de la web (cuando se pueda leer o pegar).
+- [ ] Revisar/ajustar las FAQ con el texto real de la web (opcional; las actuales están aprobadas).
 - [ ] Precios/rangos orientativos (si se decide compartir alguno → `PRICE_RANGE_HINT`).
 
 ## Resuelto
 - ✅ **Servicios** con descripción de una línea (atención al cliente, procesos internos, capacitación).
+- ✅ **Plazos**: ~30 días (servicio básico) a ~90 días (implementación amplia).
+- ✅ **FAQ** aprobadas por Sergio.
 - ✅ **Mapeo** = parte de la calificación (evaluar estado del prospecto y qué hace hoy).
 - ✅ **Diagnóstico** = servicio pagado (ya cliente), evalúa el negocio y dónde aplicar IA.
 - ✅ La llamada gratis se llama **"llamada exploratoria"** (no "de diagnóstico").

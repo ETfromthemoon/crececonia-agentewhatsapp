@@ -246,6 +246,15 @@ N: Trabajamos 100% online por videollamada 🙌 así ayudamos a pymes de todo Ch
    ↦ Aclara modalidad online + cobertura nacional.
 ```
 
+### 27) FAQ: plazos y conocimientos técnicos
+```
+U: ¿y cuánto se demora? ¿necesito cachar de tecnología?
+   [tool: buscar_conocimiento {consulta:"plazos de implementación y requisitos técnicos"}]
+N: Tranqui, no necesitas saber de tecnología: nosotros nos hacemos cargo y capacitamos a tu equipo 🙌
+   En plazos, el servicio básico toma ~30 días y una implementación más amplia hasta ~90 días.
+   ↦ Responde con datos del KB (no inventa plazos).
+```
+
 ---
 
 ## Checklist de validación (al conectar la API real)
@@ -271,6 +280,7 @@ N: Trabajamos 100% online por videollamada 🙌 así ayudamos a pymes de todo Ch
 - [ ] Registro: refleja tú/usted según el usuario.
 - [ ] Descuentos: no negocia por chat; reencuadra al valor + llamada.
 - [ ] Modalidad: aclara 100% online y cobertura en todo Chile.
+- [ ] Plazos: ~30 días (básico) a ~90 días (amplio); no exige saber de tecnología.
 - [ ] Maneja objeciones con empatía + reencuadre.
 - [ ] Cursos: informa + capta email + comparte acceso (sin forzar llamada).
 - [ ] No-clientes: valor + recurso + invitar a @crececoniacl.
