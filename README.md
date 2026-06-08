@@ -25,10 +25,12 @@ WhatsApp → Webhook (verifica firma, 200 rápido) → Queue → Durable Object 
 ## Estado
 
 🟢 **Funcional, pendiente de credenciales.** Implementado y con tests en verde: webhook con
-verificación de firma + Queue + Durable Object; cerebro de Nia (tool-use, memoria con **resumen
-rolling**, **clasificador Haiku** en paralelo); **RAG** (ingesta web/PDF/texto + recuperación con
-Vectorize); transcripción de audio (Whisper); agenda Cal.com; escalado a Telegram; **seguimiento
-automático**; **botones interactivos**; y **panel admin** con endpoints de ingesta.
+verificación de firma + Queue + Durable Object con **fusión de mensajes** (buffer+debounce); cerebro
+de Nia (tool-use, memoria con **resumen rolling**, **clasificador Haiku** en paralelo); **RAG**
+(ingesta web/PDF/texto + recuperación con Vectorize); transcripción de audio (Whisper); agenda Cal.com
+(crear/**reprogramar**/**cancelar**); escalado a Telegram; **seguimiento automático**; **botones
+interactivos**; **borrado de datos** (Ley 19.628); y **panel admin** con endpoints de ingesta. La
+persona se afinó en **10 rondas** de Q&A (≥50 iteraciones, ver [`docs/afinado/`](docs/afinado/)).
 
 **Para ponerlo en marcha** (ver [`docs/DEPLOY.md`](docs/DEPLOY.md)): credenciales + IDs de recursos
 en `wrangler.toml`, ingesta del contenido de la marca y URLs reales de los recursos de regalo
