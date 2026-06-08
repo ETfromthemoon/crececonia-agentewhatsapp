@@ -145,6 +145,22 @@ async function resolveUserText(job: IncomingJob, env: Env): Promise<string> {
     return transcribeWhatsAppAudio(env, job.message.audio.id, job.waId, job.message.id);
   }
 
-  await sendText(env, job.waId, 'De momento entiendo texto y notas de voz 🙂').catch(() => undefined);
+  if (job.message.type === 'image') {
+    // Si la foto trae texto (caption), lo usamos; si no, pedimos que lo cuenten.
+    const caption = job.message.image?.caption?.trim();
+    if (caption) return caption;
+    await sendText(
+      env,
+      job.waId,
+      'Por ahora no puedo ver fotos 🙈 ¿Me cuentas en un mensajito qué necesitas? Así te ayudo al tiro.',
+    ).catch(() => undefined);
+    return '';
+  }
+
+  await sendText(
+    env,
+    job.waId,
+    'Por ahora entiendo texto y notas de voz 🙂 ¿Me lo cuentas por aquí y te ayudo?',
+  ).catch(() => undefined);
   return '';
 }
