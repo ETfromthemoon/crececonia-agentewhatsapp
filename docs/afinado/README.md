@@ -28,7 +28,8 @@ continúa de forma evolutiva con conversaciones reales.
 - [Ronda 08 — Garantías, borrado de datos, fusión de mensajes y apertura](./ronda-08.md) · ✅ completada
 - [Ronda 09 — Spam, imágenes/archivos, urgencia y pago de cursos](./ronda-09.md) · ✅ completada
 - [Ronda 10 — Contacto recurrente, registro, descuentos y modalidad](./ronda-10.md) · ✅ completada (≥50 iteraciones)
-- [Ronda 11 — Conocimiento real de la marca (servicios, proceso, diferenciador)](./ronda-11.md) · 🔄 en curso (afinado evolutivo)
+- [Ronda 11 — Conocimiento real de la marca (servicios, proceso, diferenciador)](./ronda-11.md) · ✅ completada
+- [Ronda 12 — Embudo comercial: llamada exploratoria vs diagnóstico](./ronda-12.md) · ✅ completada
 
 ## Changelog del prompt/persona
 | Fecha | Ronda | Cambio | Archivo |
@@ -45,3 +46,4 @@ continúa de forma evolutiva con conversaciones reales.
 | 2026-06 | 09 | Spam/tóxicos (cortar con cortesía), imágenes/archivos (usa caption o pide texto), urgencia→hueco más cercano, pago de cursos por enlace | `src/brain/claude.ts`, `src/brain/prompt.ts` |
 | 2026-06 | 10 | Contacto recurrente (saluda por nombre y retoma), registro tú/usted (refleja al usuario), descuentos (no negocia), modalidad 100% online | `src/brain/prompt.ts` |
 | 2026-06 | 11 | **Conocimiento real**: 3 servicios, proceso (mapeo→diagnóstico→planificación→implementación), diferenciador (acompañamiento punta a punta + ROI), público objetivo; semilla de RAG | `src/brain/prompt.ts`, `docs/kb/crececonia.md` |
+| 2026-06 | 12 | **Embudo comercial**: llamada gratis renombrada a "**llamada exploratoria**"; mapeo = parte de calificación; diagnóstico = servicio pagado; guardia para no confundirlos | `src/brain/prompt.ts`, `src/config.ts`, `docs/kb/crececonia.md`, `docs/afinado/playbook.md` |

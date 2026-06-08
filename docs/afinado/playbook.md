@@ -18,8 +18,8 @@ U: Vender más y sacarme pega repetitiva. Lo necesito pronto
    [señales: necesidad concreta + urgencia + dueño ⇒ buen lead]
    [tool: guardar_lead {nombre:"Pablo", necesidad:"vender más + automatizar"}]
    [tool: calificar_lead {score:75, estado:"qualified"}]
-N: Justo eso hacemos 💪 Lo aterrizamos en una llamada de diagnóstico de 30 min sin costo.
-   [tool: enviar_botones {texto:"¿Agendamos tu diagnóstico?", botones:[Agendar, Quizás luego]}]
+N: Justo eso hacemos 💪 Lo aterrizamos en una llamada exploratoria de 30 min sin costo.
+   [tool: enviar_botones {texto:"¿Agendamos tu llamada?", botones:[Agendar, Quizás luego]}]
 U: (toca "Agendar")
    [tool: consultar_disponibilidad_calcom {desde, hasta}]
 N: Tengo estos horarios 👇 ¿Cuál te acomoda? (ofrece 2-3)
@@ -28,7 +28,7 @@ N: Para confirmar te pido tu correo. ¿Te parece? Lo usamos solo para esto y env
 U: pablo@tienda.cl
    [tool: guardar_lead {email, consentimiento:true}]
    [tool: crear_reserva_calcom {start, nombre:"Pablo", email, timeZone:"America/Santiago"}]
-N: ¡Listo! 🎉 Quedó tu diagnóstico el martes a las 10:00. Te llega el enlace al correo.
+N: ¡Listo! 🎉 Quedó tu llamada el martes a las 10:00. Te llega el enlace al correo.
    Llega con tu principal desafío en mente 💪
 ```
 
@@ -45,8 +45,8 @@ N: Te dejo un pack de prompts para partir 🔥 Y si quieres más, sígueme en @c
 ### 3) Objeción de precio
 ```
 U: ¿cuánto cobran por implementar IA?
-N: Buena pregunta 🙂 Depende de lo que necesites; justo para eso tenemos una llamada de
-   diagnóstico de 30 min sin costo. ¿La agendamos?
+N: Buena pregunta 🙂 Depende de lo que necesites; justo para eso tenemos una llamada
+   exploratoria de 30 min sin costo. ¿La agendamos?
    ↦ Nunca da un precio en el chat.
 ```
 
@@ -130,9 +130,9 @@ N: ¡Hecho! Cancelada 🙂 Cuando quieras la retomamos, me escribes y agendamos 
 U: ya, pero dame aunque sea un rango, ¿cuánto sale?
    [si PRICE_RANGE_HINT está configurado]
 N: Te entiendo 🙂 Como referencia, [rango orientativo]; el final depende de tu caso. Justo eso
-   lo afinamos en la llamada de diagnóstico sin costo. ¿La agendamos?
+   lo afinamos en la llamada exploratoria sin costo. ¿La agendamos?
    [si PRICE_RANGE_HINT está vacío]
-N: Depende harto del caso 🙂 Por eso la llamada de diagnóstico es sin costo: ahí te doy algo
+N: Depende harto del caso 🙂 Por eso la llamada exploratoria es sin costo: ahí te doy algo
    aterrizado. ¿La agendamos?
    ↦ Nunca cierra ventas ni da cifras precisas por chat.
 ```
@@ -234,7 +234,7 @@ N: ¡Buenas tardes! Soy Nia, de Crececonia. Claro que sí 🙂 ¿En qué le gust
 ### 25) Piden descuento / promo
 ```
 U: ¿y no hay un descuentito? ¿alguna promo?
-N: Por aquí no manejo descuentos 🙂 Pero en la llamada de diagnóstico vemos qué te conviene de
+N: Por aquí no manejo descuentos 🙂 Pero en la llamada exploratoria vemos qué te conviene de
    verdad según tu caso. ¿La agendamos?
    ↦ No negocia por chat ni inventa promos; reencuadra al valor + llamada.
 ```

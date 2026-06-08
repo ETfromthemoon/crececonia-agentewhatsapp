@@ -9,7 +9,7 @@
 >   --data-binary @<(jq -Rs '{source:"crececonia-kb", text:.}' docs/kb/crececonia.md)
 > ```
 >
-> Última actualización: 2026-06-08 (Ronda 11).
+> Última actualización: 2026-06-08 (Ronda 12).
 
 ## Qué es Crececonia
 Marca de IA aplicada para PYMEs. Ayudamos a negocios **en marcha** a ahorrar horas y vender más con
@@ -25,14 +25,24 @@ IA. Trabajamos **100% online** (videollamada), así atendemos pymes de **todo Ch
 Además: **cursos básicos** (hoy en PDF, pronto en video) y **recursos de regalo** (p. ej. un pack de
 prompts para pymes).
 
-## Cómo trabajamos — proceso de acompañamiento punta a punta
-1. **Mapeo** — _(a confirmar: entender cómo trabaja hoy el negocio / sus procesos)._
-2. **Diagnóstico** — _(a confirmar: detectar dónde la IA aporta más valor / cuellos de botella)._
-3. **Planificación de la implementación** — definir el plan y las herramientas.
-4. **Implementación** — poner en marcha las herramientas y acompañar su adopción.
+## Cómo trabajamos — del primer contacto a la implementación
+**Antes de ser cliente (pre-venta):**
+1. **Mapeo** — parte de la **calificación**: evaluamos el estado del prospecto (su etapa de venta) y
+   qué está haciendo hoy, para ver si el servicio le sirve.
+2. **Llamada exploratoria** (gratis, ~30 min) — solo si hay fit e intención reales: una primera
+   conversación para conocernos y ver cómo podemos ayudar. _No es el diagnóstico._
+
+**Ya como cliente (servicio contratado):**
+3. **Diagnóstico** (servicio pagado) — evaluamos el negocio a fondo y definimos **dónde implementar IA
+   en los procesos**.
+4. **Planificación de la implementación** — definimos el plan y las herramientas.
+5. **Implementación** — ponemos en marcha las herramientas y acompañamos su adopción.
 
 Acompañamos **desde el inicio hasta el uso real**, cuidando que el equipo adopte de verdad las
 herramientas hasta ver el **retorno de la inversión (ROI)**.
+
+> ⚠️ No confundir: la **llamada exploratoria** es gratis (para conocerse, tras calificar); el
+> **diagnóstico** es un servicio pagado, ya como cliente.
 
 ## Qué nos diferencia
 - **Acompañamiento de punta a punta:** no solo entregamos una herramienta; acompañamos desde el inicio
@@ -48,8 +58,11 @@ herramientas hasta ver el **retorno de la inversión (ROI)**.
 
 ## Pendiente de completar (próximas rondas)
 - [ ] Descripción exacta de cada servicio (1 línea por servicio).
-- [ ] Qué pasa en **mapeo** vs **diagnóstico**.
-- [ ] Cómo encaja la **llamada de diagnóstico gratis (30 min)** con el "diagnóstico" del proceso.
 - [ ] **FAQs reales** y sus respuestas.
 - [ ] **Casos/resultados** reales (aunque sean anonimizados).
 - [ ] Precios/rangos orientativos (si se decide compartir alguno → `PRICE_RANGE_HINT`).
+
+## Resuelto
+- ✅ **Mapeo** = parte de la calificación (evaluar estado del prospecto y qué hace hoy).
+- ✅ **Diagnóstico** = servicio pagado (ya cliente), evalúa el negocio y dónde aplicar IA.
+- ✅ La llamada gratis se llama **"llamada exploratoria"** (no "de diagnóstico").
