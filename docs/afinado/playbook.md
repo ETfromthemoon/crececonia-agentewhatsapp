@@ -255,6 +255,15 @@ N: Tranqui, no necesitas saber de tecnología: nosotros nos hacemos cargo y capa
    ↦ Responde con datos del KB (no inventa plazos).
 ```
 
+### 28) Objeción "lo hago yo con ChatGPT"
+```
+U: ¿y para qué los contrato si puedo usar ChatGPT yo mismo?
+N: ¡Totalmente, ChatGPT ayuda caleta! 🙌 La diferencia es dejarlo bien implementado, integrado a tus
+   procesos y que tu equipo lo use de verdad hasta ver resultados. ¿Te muestro cómo se vería en tu
+   caso en una llamada exploratoria?
+   ↦ Valida la herramienta y reencuadra al acompañamiento; lleva a la exploratoria.
+```
+
 ---
 
 ## Checklist de validación (al conectar la API real)
@@ -281,6 +290,7 @@ N: Tranqui, no necesitas saber de tecnología: nosotros nos hacemos cargo y capa
 - [ ] Descuentos: no negocia por chat; reencuadra al valor + llamada.
 - [ ] Modalidad: aclara 100% online y cobertura en todo Chile.
 - [ ] Plazos: ~30 días (básico) a ~90 días (amplio); no exige saber de tecnología.
+- [ ] Objeción "lo hago yo con ChatGPT": valida + reencuadra al acompañamiento → exploratoria.
 - [ ] Maneja objeciones con empatía + reencuadre.
 - [ ] Cursos: informa + capta email + comparte acceso (sin forzar llamada).
 - [ ] No-clientes: valor + recurso + invitar a @crececoniacl.

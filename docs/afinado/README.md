@@ -32,6 +32,7 @@ continúa de forma evolutiva con conversaciones reales.
 - [Ronda 12 — Embudo comercial: llamada exploratoria vs diagnóstico](./ronda-12.md) · ✅ completada
 - [Ronda 13 — Servicios al detalle y FAQs](./ronda-13.md) · ✅ completada
 - [Ronda 14 — Cierre de FAQs: plazos y aprobación](./ronda-14.md) · ✅ completada
+- [Ronda 15 — Objeción "lo hago yo con ChatGPT"](./ronda-15.md) · ✅ completada
 
 ## Changelog del prompt/persona
 | Fecha | Ronda | Cambio | Archivo |
@@ -51,3 +52,4 @@ continúa de forma evolutiva con conversaciones reales.
 | 2026-06 | 12 | **Embudo comercial**: llamada gratis renombrada a "**llamada exploratoria**"; mapeo = parte de calificación; diagnóstico = servicio pagado; guardia para no confundirlos | `src/brain/prompt.ts`, `src/config.ts`, `docs/kb/crececonia.md`, `docs/afinado/playbook.md` |
 | 2026-06 | 13 | **Servicios** con descripción de 1 línea; **FAQ** en el KB (8 preguntas fundadas en lo confirmado; web 403 → no se inventó de terceros) | `src/brain/prompt.ts`, `docs/kb/crececonia.md` |
 | 2026-06 | 14 | **Plazos** (~30 a ~90 días) en FAQ y prompt; FAQ aprobadas | `src/brain/prompt.ts`, `docs/kb/crececonia.md`, `docs/afinado/playbook.md` |
+| 2026-06 | 15 | Objeción "**lo hago yo con ChatGPT**" → validar + reencuadrar al acompañamiento | `src/brain/prompt.ts`, `docs/kb/crececonia.md`, `docs/afinado/playbook.md` |

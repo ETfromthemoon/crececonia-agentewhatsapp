@@ -78,6 +78,9 @@ herramientas hasta ver el **retorno de la inversión (ROI)**.
   los borremos cuando gustes.
 - **¿Cuánto demora implementarlo?** Depende del alcance: el servicio más básico toma alrededor de 30
   días; una implementación más amplia, hasta unos 90 días.
+- **¿Por qué no lo hago yo con ChatGPT?** ChatGPT ayuda, pero el valor está en implementarlo bien,
+  integrarlo a tus procesos y que tu equipo lo adopte hasta ver resultados — eso es justo lo que
+  hacemos nosotros (no solo entregar una herramienta).
 
 ## Pendiente de completar (próximas rondas)
 - [ ] **Casos/resultados** reales (aunque sean anonimizados).
