@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "simulate": "node scripts/simulate-webhook.mjs",
     "db:migrate:local": "wrangler d1 migrations apply crececonia-leads --local",
     "db:migrate:remote": "wrangler d1 migrations apply crececonia-leads --remote",
     "cf-typegen": "wrangler types"

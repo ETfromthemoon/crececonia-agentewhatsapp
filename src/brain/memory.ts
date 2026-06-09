@@ -45,7 +45,7 @@ export async function buildContext(
 }
 
 /** Normaliza a un historial válido para Anthropic: empieza en user y alterna roles. */
-function toMessages(rows: MessageRow[], currentUserText: string): Anthropic.MessageParam[] {
+export function toMessages(rows: MessageRow[], currentUserText: string): Anthropic.MessageParam[] {
   const raw: Anthropic.MessageParam[] = rows
     .filter((r) => (r.body ?? '').trim().length > 0)
     .map((r) => ({ role: r.direction === 'inbound' ? 'user' : 'assistant', content: r.body ?? '' }));

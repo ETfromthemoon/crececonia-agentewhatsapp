@@ -108,6 +108,17 @@ En la app de Meta → **WhatsApp → Configuración → Webhooks**:
 - Dispara la ingesta (cuando esté implementada): vía endpoint admin o `RAG_INGEST.create({ params })`.
 
 ## 11) Prueba end-to-end
+
+**Sin número real (en local):** levanta `npm run dev` y, en otra terminal, simula mensajes de WhatsApp
+**firmados** (lee `APP_SECRET`/`WHATSAPP_VERIFY_TOKEN` de `.dev.vars`):
+```bash
+npm run simulate -- --verify                       # prueba el handshake GET de Meta
+npm run simulate -- "Hola, tengo una pyme y quiero IA"
+npm run simulate -- --type button "Agendar"
+npm run simulate -- --type audio                   # nota de voz simulada
+```
+
+**Con número real:**
 ```bash
 npx wrangler tail        # logs en vivo
 ```
