@@ -55,3 +55,4 @@ continúa de forma evolutiva con conversaciones reales.
 | 2026-06 | 14 | **Plazos** (~30 a ~90 días) en FAQ y prompt; FAQ aprobadas | `src/brain/prompt.ts`, `docs/kb/crececonia.md`, `docs/afinado/playbook.md` |
 | 2026-06 | 15 | Objeción "**lo hago yo con ChatGPT**" → validar + reencuadrar al acompañamiento | `src/brain/prompt.ts`, `docs/kb/crececonia.md`, `docs/afinado/playbook.md` |
 | 2026-06 | 16 | Recursos apuntan a **crececonia.cl** (base de conocimiento); **checkpoint** de sesión | `src/resources.ts`, `docs/ESTADO.md` |
+| 2026-06 | — | **Consolidación del prompt** en secciones (IDENTIDAD, QUÉ ES, OBJETIVOS, OBJECIONES, etc.). Solo claridad; sin cambio de comportamiento | `src/brain/prompt.ts` |
