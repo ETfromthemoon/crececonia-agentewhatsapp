@@ -1,14 +1,14 @@
 # Estado del proyecto — Agente WhatsApp Crececonia (checkpoint de sesión)
 
-> Snapshot para guardar/retomar. Última actualización: 2026-06-08.
+> Snapshot para guardar/retomar. Última actualización: 2026-06-09.
 > Rama de trabajo: `claude/brave-turing-xp1rn`. Código y docs commiteados y pusheados.
 
-> 💰 Costos estimados de lanzar y operar: ver [`docs/COSTOS.md`](COSTOS.md).
+> 💰 Costos: [`docs/COSTOS.md`](COSTOS.md) · 🔒 Seguridad: [`docs/SECURITY.md`](SECURITY.md) · 🚀 Lanzamiento: [`docs/DEPLOY.md`](DEPLOY.md)
 
 ## En una línea
 Agente de WhatsApp con cerebro Claude sobre Cloudflare Workers. **Código funcional y testeado**
-(typecheck + 7/7 tests verdes), **persona y conocimiento afinados en 15 rondas**. Falta credenciales
-y verificación de Meta para desplegar.
+(typecheck + **15/15 tests** verdes, **bundle compila/despliega en seco sin errores**), **persona y
+conocimiento afinados en 16 rondas**. Falta credenciales y verificación de Meta para desplegar.
 
 ## Hecho ✅
 - **Arquitectura:** webhook (firma HMAC + 200 rápido) → Queue → Durable Object (con **fusión de
@@ -21,7 +21,10 @@ y verificación de Meta para desplegar.
   cron. **Botones** interactivos. **Panel admin.** **Borrado de datos** (Ley 19.628).
 - **Conocimiento (`docs/kb/crececonia.md`):** qué es, 3 servicios, embudo (exploratoria→diagnóstico→
   planificación→implementación), plazos 30-90 días, diferenciador, público, 8 FAQ + objeción ChatGPT.
-- **Afinado:** 15 rondas documentadas en `docs/afinado/` + playbook con 28 escenarios.
+- **Afinado:** 16 rondas documentadas en `docs/afinado/` + playbook con 28 escenarios.
+- **Pre-lanzamiento (sin credenciales):** runbook ordenado (`DEPLOY.md`), **revisión de seguridad**
+  + `SECURITY.md`, **simulador de webhook firmado** (`npm run simulate`), **15 tests**, y prompt
+  consolidado por secciones.
 
 ## Pendiente de Sergio (datos reales, NO bloquean el código)
 - [ ] **Caso/resultado real** (anonimizado) para prueba social → sumar al KB y al prompt.
