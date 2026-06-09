@@ -1,6 +1,7 @@
 import type { Env } from '../env';
 import { listLeads } from '../db/leads';
 import { ingestText } from '../rag/ingest';
+import { timingSafeEqual } from '../lib/safeEqual';
 
 /**
  * Panel admin mínimo (protegido por ADMIN_TOKEN).
@@ -13,16 +14,21 @@ export async function handleAdmin(request: Request, env: Env): Promise<Response>
   const url = new URL(request.url);
 
   // Panel HTML (auth por query token, cómodo desde el navegador).
+  // Nota: el token va en la URL → puede quedar en logs/historial. Usa un ADMIN_TOKEN largo y aleatorio.
   if (url.pathname === '/admin' && request.method === 'GET') {
-    if (!env.ADMIN_TOKEN || url.searchParams.get('token') !== env.ADMIN_TOKEN) return unauthorized();
+    if (!env.ADMIN_TOKEN || !timingSafeEqual(url.searchParams.get('token') ?? '', env.ADMIN_TOKEN)) {
+      return unauthorized();
+    }
     const leads = (await listLeads(env, 200)) as Record<string, unknown>[];
     return new Response(renderPanel(leads), {
       headers: { 'content-type': 'text/html; charset=utf-8' },
     });
   }
 
-  // Resto de endpoints: auth por header Bearer.
-  if (!env.ADMIN_TOKEN || request.headers.get('authorization') !== `Bearer ${env.ADMIN_TOKEN}`) {
+  // Resto de endpoints: auth por header Bearer (comparación en tiempo constante).
+  const authHeader = request.headers.get('authorization') ?? '';
+  const bearer = authHeader.startsWith('Bearer ') ? authHeader.slice('Bearer '.length) : '';
+  if (!env.ADMIN_TOKEN || !timingSafeEqual(bearer, env.ADMIN_TOKEN)) {
     return unauthorized();
   }
 

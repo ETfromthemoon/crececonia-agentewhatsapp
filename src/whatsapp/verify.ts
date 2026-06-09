@@ -1,3 +1,5 @@
+import { timingSafeEqual } from '../lib/safeEqual';
+
 /**
  * Verificación de la firma del webhook de WhatsApp (X-Hub-Signature-256).
  * HMAC-SHA256 del RAW body con el APP_SECRET de la app de Meta, comparación timing-safe.
@@ -30,14 +32,4 @@ function bufferToHex(buf: ArrayBuffer): string {
   let hex = '';
   for (const b of bytes) hex += b.toString(16).padStart(2, '0');
   return hex;
-}
-
-/** Comparación de tiempo constante para evitar timing attacks. */
-function timingSafeEqual(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let mismatch = 0;
-  for (let i = 0; i < a.length; i++) {
-    mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  }
-  return mismatch === 0;
 }
