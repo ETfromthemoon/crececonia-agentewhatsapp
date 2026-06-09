@@ -6,6 +6,15 @@ y verificar el número) hazlo tú; los comandos están listos para copiar/pegar.
 > ⏳ **Empieza ya por el paso 4 (WhatsApp/Meta):** la verificación del negocio/número puede tardar
 > días y es el cuello de botella.
 
+## Resumen: orden y tiempos
+| Fase | Qué | Cuándo | Tiempo |
+|---|---|---|---|
+| **A · Ahora** | Conseguir el **número** (eSIM prepago) e **iniciar la verificación en Meta**. Contratar Workers Paid y cargar saldo en Anthropic. | Hoy | minutos |
+| **B · Verificación Meta** | Business Verification + alta del número (externo, no depende de nosotros). | Empezar YA | días ⏳ |
+| **C · Día de lanzamiento** | Crear recursos CF → pegar IDs → secrets → `deploy` → conectar webhook → ingestar RAG → probar E2E. | Con credenciales | ~30–60 min |
+
+> 💰 Costos de cada cosa: ver [`docs/COSTOS.md`](COSTOS.md).
+
 ---
 
 ## 0) Requisitos (cuentas)
@@ -38,6 +47,13 @@ npx wrangler d1 migrations apply crececonia-leads --remote
    (si no, déjalo vacío).
 
 ## 4) WhatsApp Cloud API (Meta) — ¡empieza por aquí!
+
+> **El número dedicado:** usa una **línea nueva** (lo más simple: una **eSIM prepago** en tu teléfono,
+> ~CLP 1.000–5.000) que **NO esté activa en la app de WhatsApp** (ni Messenger ni Business). El Cloud
+> API aloja el número en la nube de Meta; el teléfono solo recibe el **código de verificación** una
+> vez — después no necesitas ninguna app abierta. No se paga por el número ni por la Cloud API, y
+> como vamos directo (sin BSP) no hay comisiones.
+
 1. [developers.facebook.com](https://developers.facebook.com) → **Crear app** → tipo **Business**.
 2. Añade el producto **WhatsApp**. Obtendrás un **número de prueba** (sandbox) para empezar.
 3. Apunta: **Phone number ID** y el **WhatsApp Business Account ID**.
