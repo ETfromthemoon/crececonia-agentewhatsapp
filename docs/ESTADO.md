@@ -3,6 +3,8 @@
 > Snapshot para guardar/retomar. Última actualización: 2026-06-08.
 > Rama de trabajo: `claude/brave-turing-xp1rn`. Código y docs commiteados y pusheados.
 
+> 💰 Costos estimados de lanzar y operar: ver [`docs/COSTOS.md`](COSTOS.md).
+
 ## En una línea
 Agente de WhatsApp con cerebro Claude sobre Cloudflare Workers. **Código funcional y testeado**
 (typecheck + 7/7 tests verdes), **persona y conocimiento afinados en 15 rondas**. Falta credenciales
