@@ -4,11 +4,22 @@
 > dependen del volumen, el largo de las conversaciones, cuánto se use RAG y las notas de voz.
 > Tipo de cambio referencial: ~$950 CLP/USD (varía).
 
-## 1. Costo de lanzamiento (one-time): ~US$0
+## 1. Para lanzar (encender el agente)
+
+**Lo único que pagas para arrancar:**
+
+| Qué | Costo | Nota |
+|---|---|---|
+| **Cloudflare Workers (plan pago)** | **US$5/mes** | Único pago fijo obligatorio (Durable Objects + Queues lo requieren). Incluye D1, KV, Vectorize, R2, colas. |
+| **Número de WhatsApp dedicado** | **US$0** | Usas un número **tuyo** que no esté activo en la app de WhatsApp. Meta no cobra por el número ni por la Cloud API, y como vamos directo (sin BSP tipo Twilio) no hay comisiones. Opcional: un número virtual dedicado (~US$1–5/mes) si no quieres usar uno propio. |
+| **API de Claude (Anthropic)** | **pago por uso** | Sin cuota fija. Solo cargas un **saldo inicial** (~US$10–20) y de ahí pagas por conversación (~US$0.10 c/u). |
+
+**Gratis, pero necesario para completar el lanzamiento:**
+- **Verificación de negocio en Meta:** gratis, pero **tarda días** → es el cuello de botella de *tiempo* (conviene iniciarla pronto).
+- AI Gateway (Cloudflare), Cal.com (plan gratis), bot de Telegram (escalado), dominio (ya lo tienes).
 - **Código:** ya está hecho y testeado. Sin costo de desarrollo.
-- **Verificación del número en Meta:** gratis (toma tiempo, no dinero).
-- **Dominio:** ya tienes crececonia.cl.
-- Solo cuesta **tu tiempo** de configuración (credenciales, IDs, ingesta del conocimiento).
+
+**Desembolso para encender:** ~US$5/mes (Cloudflare) + ~US$10–20 de saldo inicial en Claude. El número, gratis. → **Primer mes ≈ US$15–25**, y de ahí el uso de Claude según volumen.
 
 ## 2. Costo del "cerebro" (Claude) — el principal variable
 Precios por 1M de tokens (Anthropic, 2026):
