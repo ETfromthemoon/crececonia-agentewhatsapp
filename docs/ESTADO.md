@@ -40,6 +40,17 @@ conocimiento afinados en 16 rondas**. Falta credenciales y verificación de Meta
 - [ ] **Ingestar el conocimiento**: `crececonia.cl` es la base (devuelve 403 al crawler → usar
       User-Agent realista o `/admin/ingest-text` con `docs/kb/crececonia.md`).
 
-## Cómo retomar
+## Cómo retomar (empieza aquí 👇)
+**Acción #1 (cuello de botella):** conseguir el número (eSIM prepago) e **iniciar la verificación del
+negocio/número en Meta** — tarda días (`docs/DEPLOY.md` §4). En paralelo:
 1. Persona/conocimiento: seguir el afinado en `docs/afinado/` (caso real + deep-links pendientes).
-2. Despliegue: seguir `docs/DEPLOY.md` paso a paso cuando haya credenciales.
+2. Despliegue: cuando haya credenciales, seguir `docs/DEPLOY.md` (fase C, ~30-60 min). Probar antes en
+   local con `npm run dev` + `npm run simulate`.
+
+## Bitácora de sesiones
+- **2026-06-09 (cierre de sesión):** Completado y pusheado todo el trabajo "sin credenciales" —
+  costos (`COSTOS.md`), runbook ordenado con paso del número/eSIM, **revisión de seguridad**
+  (`SECURITY.md` + `ADMIN_TOKEN` en tiempo constante), **simulador de webhook firmado** + tests
+  (7→15 verdes) y **consolidación del prompt** por secciones. Próximo bloqueante: número + Meta.
+- **Previo:** código completo y testeado, **16 rondas** de afinado de Nia, KB y recursos apuntando a
+  crececonia.cl, checkpoint inicial.
